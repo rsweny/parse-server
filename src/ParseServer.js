@@ -198,6 +198,8 @@ class ParseServer {
       /* eslint-enable */
     }
 
+    console.warn('Ryan Server is here');
+
     auth = Object.assign({}, oauth, auth);
 
     AppCache.put(appId, {
