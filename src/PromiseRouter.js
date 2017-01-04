@@ -185,7 +185,7 @@ function makeExpressHandler(appId, promiseHandler) {
         }
         res.json(result.response);
       }, (e) => {
-        log.error(`Error generating response. ${inspect(e)}`, {error: e});
+        log.error(`Error generating ptf response. ${inspect(e)}`, {error: e});
         next(e);
       });
     } catch (e) {
