@@ -6,6 +6,7 @@ function validateIdToken(id, token) {
   return request("tokeninfo?id_token="+token)
     .then((response) => {
       if (response && (response.sub == id || response.user_id == id)) {
+        console.warn("validateIdToken google success!");
         return;
       }
       throw new Parse.Error(
@@ -18,6 +19,7 @@ function validateAuthToken(id, token) {
   return request("tokeninfo?access_token="+token)
     .then((response) => {
       if (response &&  (response.sub == id || response.user_id == id)) {
+        console.warn("validateAuthToken google success!");
         return;
       }
       throw new Parse.Error(
@@ -33,6 +35,7 @@ function validateAuthData(authData) {
   } else {
     return validateAuthToken(authData.id, authData.access_token).then(() => {
       // Validation with auth token worked
+      console.warn("validateAuthData google success!");
       return;
     }, () => {
       // Try with the id_token param
