@@ -6,12 +6,17 @@ var Parse = require('parse/node').Parse;
 function validateAuthData(authData) {
   return graphRequest('me?fields=id&access_token=' + authData.access_token)
     .then((data) => {
-      if (data && data.id == authData.id) {
+
+      if (data == null) {
+        throw new Parse.Error( Parse.Error.OBJECT_NOT_FOUND, 'Facebook auth was not returned for this user.');
+      }
+
+      if (data.id == authData.id) {
         return;
       }
-      throw new Parse.Error(
-        Parse.Error.OBJECT_NOT_FOUND,
-        'Facebook auth is invalid for this user.');
+      console.log("IN: " + JSON.stringify(authData));
+      console.log("RETURN: " + JSON.stringify(data));
+      throw new Parse.Error(Parse.Error.OBJECT_NOT_FOUND, 'Facebook auth is invalid for this user. ' + data.id + " " + authData.id);
     });
 }
 
@@ -25,12 +30,18 @@ function validateAppId(appIds, authData) {
   }
   return graphRequest('app?access_token=' + access_token)
     .then((data) => {
-      if (data && appIds.indexOf(data.id) != -1) {
+
+      if (data == null) {
+        throw new Parse.Error( Parse.Error.OBJECT_NOT_FOUND, 'Facebook appId was not returned for this user.');
+      }
+
+      if (appIds.indexOf(data.id) != -1) {
         return;
       }
-      throw new Parse.Error(
-        Parse.Error.OBJECT_NOT_FOUND,
-        'Facebook auth is invalid for this user.');
+
+      console.log("IN: " + JSON.stringify(authData));
+      console.log("RETURN: " + JSON.stringify(data));
+      throw new Parse.Error(Parse.Error.OBJECT_NOT_FOUND, 'Facebook appId is invalid for this user. ' + data.id);
     });
 }
 
