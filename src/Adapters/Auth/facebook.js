@@ -2,11 +2,6 @@
 var https = require('https');
 var Parse = require('parse/node').Parse;
 
-var _logger = require('./logger');
-var _logger2 = _interopRequireDefault(_logger);
-var _util = require('util');
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
 // Returns a promise that fulfills iff this user id is valid.
 function validateAuthData(authData) {
   return graphRequest('me?fields=id&access_token=' + authData.access_token)
@@ -21,7 +16,6 @@ function validateAuthData(authData) {
       }
       console.warn("IN: " + JSON.stringify(authData));
       console.log("RETURN: " + JSON.stringify(data));
-      _logger2.default.error('facebook validateAuthData' + (0, _util.inspect)(data), { error: data });
       throw new Parse.Error(Parse.Error.OBJECT_NOT_FOUND, 'Facebook auth is invalid for this user. ' + data.id + " " + authData.id);
     });
 }
